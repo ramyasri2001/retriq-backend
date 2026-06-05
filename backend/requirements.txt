@@ -1,0 +1,10 @@
+langchain
+langchain-community
+faiss-cpu
+sentence-transformers
+anthropic
+fastapi
+uvicorn
+python-dotenv
+pypdf
+tavily-python
