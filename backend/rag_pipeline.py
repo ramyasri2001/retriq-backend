@@ -1,7 +1,7 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
@@ -14,8 +14,10 @@ vectorstore = None
 rag_chain = None
 
 # Initialize embedding model once — expensive to reload every time
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-small",
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
 # Initialize Claude once
 llm = ChatAnthropic(
     model="claude-opus-4-6",
