@@ -28,6 +28,10 @@ def root():
 async def upload_pdf(file: UploadFile = File(...)):
     """Accept a PDF and ingest it into RAG pipeline"""
     
+    # Check file type
+    if not file.filename.endswith(".pdf"):
+        return {"error": "Only PDF files are supported. Please upload a .pdf file."}
+    
     # Save uploaded file temporarily
     file_path = f"temp_{file.filename}"
     with open(file_path, "wb") as buffer:
@@ -44,7 +48,6 @@ async def upload_pdf(file: UploadFile = File(...)):
         "chunks_created": chunk_count,
         "filename": file.filename
     }
-
 @app.post("/ask")
 async def ask(request: QuestionRequest):
     """Accept a question and return RAG answer"""
