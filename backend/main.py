@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import shutil
 import os
+import sys
+sys.path.append(os.path.dirname(__file__))
 from rag_pipeline import ingest_pdf, ask_question
-
 app = FastAPI()
 
 # Allow React frontend to talk to this backend
