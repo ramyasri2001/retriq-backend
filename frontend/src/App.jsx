@@ -73,7 +73,7 @@ export default function App() {
       });
       const data = await res.json();
       setMessages(prev => [...prev, {
-        role: "assistant", text: data.answer, sources: data.sources
+        role: "assistant", text: data.answer, sources: data.sources, sourceType: data.source_type
       }]);
     } catch {
       setMessages(prev => [...prev, {
@@ -121,11 +121,19 @@ export default function App() {
             cursor: "pointer", transition: "all 0.2s",
             background: file ? "rgba(37,99,235,0.05)" : "transparent"
           }}>
-            <div style={{ fontSize: "28px" }}>📄</div>
+            <div style={{ fontSize: "28px" }}>
+  {file ? (
+    file.name.match(/\.(jpg|jpeg|png|webp)$/i) ? "🖼️" :
+    file.name.match(/\.xlsx?$/i) ? "📊" :
+    file.name.match(/\.pptx?$/i) ? "📑" :
+    file.name.match(/\.docx?$/i) ? "📝" :
+    "📄"
+  ) : "📁"}
+</div>
             <div style={{ fontSize: "13px", color: file ? "#93C5FD" : "#64748B", textAlign: "center" }}>
-              {file ? file.name : "Click to select PDF"}
+              {file ? file.name : "Click to select document"}
             </div>
-            <input type="file" accept=".pdf" style={{ display: "none" }}
+            <input type="file" accept=".pdf,.docx,.xlsx,.xls,.pptx,.csv,.txt,.md,.jpg,.jpeg,.png,.webp" style={{ display: "none" }}
               onChange={e => setFile(e.target.files[0])} />
           </label>
 
@@ -295,9 +303,11 @@ export default function App() {
                   <div style={{
                     marginTop: "8px", paddingTop: "8px",
                     borderTop: "1px solid rgba(255,255,255,0.1)",
-                    fontSize: "11px", color: "#64748B"
+                    fontSize: "11px", color: msg.sourceType === "web" ? "#E07B39" : "#64748B"
                   }}>
-                    📌 {msg.sources} source chunks retrieved
+                    {msg.sourceType === "web"
+                      ? `🌐 Not found in document — answered from live web (${msg.sources} sources)`
+                      : `📌 ${msg.sources} source chunks retrieved from document`}
                   </div>
                 )}
               </div>

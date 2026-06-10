@@ -4,9 +4,14 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_anthropic import ChatAnthropic
+from langchain.schema import Document
 from dotenv import load_dotenv
 import os
 import sys
+import base64
+import pandas as pd
+from docx import Document as DocxDocument
+from pptx import Presentation
 
 sys.path.append(os.path.dirname(__file__))
 load_dotenv()
@@ -25,21 +30,109 @@ llm = ChatAnthropic(
     max_tokens=1024
 )
 
-def ingest_pdf(file_path: str):
-    """Read PDF, chunk it, embed it, store in FAISS"""
+def extract_text_from_file(file_path: str, filename: str) -> str:
+    """Extract text from any supported file type"""
+    ext = filename.lower().split(".")[-1]
+
+    # PDF
+    if ext == "pdf":
+        from pypdf import PdfReader
+        reader = PdfReader(file_path)
+        return "\n".join([page.extract_text() or "" for page in reader.pages])
+
+    # Word
+    elif ext == "docx":
+        doc = DocxDocument(file_path)
+        return "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
+
+    # Excel
+    elif ext in ["xlsx", "xls"]:
+        df_dict = pd.read_excel(file_path, sheet_name=None)
+        text = ""
+        for sheet_name, df in df_dict.items():
+            text += f"\n\n--- Sheet: {sheet_name} ---\n"
+            text += df.to_string(index=False)
+        return text
+
+    # PowerPoint
+    elif ext == "pptx":
+        prs = Presentation(file_path)
+        text = ""
+        for i, slide in enumerate(prs.slides):
+            text += f"\n\n--- Slide {i+1} ---\n"
+            for shape in slide.shapes:
+                if hasattr(shape, "text") and shape.text.strip():
+                    text += shape.text + "\n"
+        return text
+
+    # CSV
+    elif ext == "csv":
+        df = pd.read_csv(file_path)
+        return df.to_string(index=False)
+
+    # Plain text or markdown
+    elif ext in ["txt", "md"]:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            return f.read()
+
+    # Image — Claude Vision OCR
+    elif ext in ["jpg", "jpeg", "png", "webp"]:
+        import anthropic
+        client = anthropic.Anthropic()
+        with open(file_path, "rb") as f:
+            image_data = base64.b64encode(f.read()).decode()
+        media_type = "image/jpeg" if ext in ["jpg", "jpeg"] else f"image/{ext}"
+        response = client.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=4096,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": media_type,
+                            "data": image_data
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "Extract ALL content from this document image. Include all text, tables, charts descriptions, and any other visible information. Be thorough and preserve structure."
+                    }
+                ]
+            }]
+        )
+        return response.content[0].text
+
+    else:
+        return f"Unsupported file type: {ext}"
+
+
+def ingest_document(file_path: str, filename: str):
+    """Read any document, chunk it, embed it, store in FAISS"""
     global vectorstore, rag_chain
 
-    loader = PyPDFLoader(file_path)
-    documents = loader.load()
+    # Extract text from file
+    text = extract_text_from_file(file_path, filename)
 
+    if not text.strip():
+        return 0
+
+    # Create document object
+    documents = [Document(page_content=text, metadata={"source": filename})]
+
+    # Split into chunks
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
         chunk_overlap=50
     )
     chunks = splitter.split_documents(documents)
 
+    # Store in FAISS
     vectorstore = FAISS.from_documents(chunks, embeddings)
 
+    # Create RAG chain
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     rag_chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -50,12 +143,13 @@ def ingest_pdf(file_path: str):
 
     return len(chunks)
 
+
 def ask_question(question: str):
     """Ask a question — FAISS first, Tavily fallback"""
     global rag_chain, vectorstore
 
     if rag_chain is None:
-        return {"error": "No document uploaded yet. Please upload a PDF first."}
+        return {"error": "No document uploaded yet. Please upload a document first."}
 
     # Step 1 — Search FAISS first
     result = rag_chain.invoke({"query": question})
@@ -78,15 +172,13 @@ def ask_question(question: str):
             tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
             search_results = tavily.search(query=question, max_results=3)
 
-            # Build context from Tavily results
             web_context = "\n\n".join([
                 f"Source: {r['url']}\n{r['content']}"
                 for r in search_results.get("results", [])
             ])
 
-            # Ask Claude with web context
-            from anthropic import Anthropic
-            client = Anthropic()
+            import anthropic
+            client = anthropic.Anthropic()
             web_answer = client.messages.create(
                 model="claude-opus-4-6",
                 max_tokens=1024,

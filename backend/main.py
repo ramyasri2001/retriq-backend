@@ -5,7 +5,7 @@ import shutil
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
-from rag_pipeline import ingest_pdf, ask_question
+from rag_pipeline import ingest_document, ask_question
 app = FastAPI()
 
 # Allow React frontend to talk to this backend
@@ -26,12 +26,15 @@ def root():
     return {"message": "Compliance RAG Assistant is running!"}
 
 @app.post("/upload")
-async def upload_pdf(file: UploadFile = File(...)):
-    """Accept a PDF and ingest it into RAG pipeline"""
+async def upload_document(file: UploadFile = File(...)):
+    """Accept any document and ingest it into RAG pipeline"""
     
-    # Check file type
-    if not file.filename.endswith(".pdf"):
-        return {"error": "Only PDF files are supported. Please upload a .pdf file."}
+    # Check supported file types
+    allowed_extensions = ["pdf", "docx", "xlsx", "xls", "pptx", "csv", "txt", "md", "jpg", "jpeg", "png", "webp"]
+    ext = file.filename.lower().split(".")[-1]
+    
+    if ext not in allowed_extensions:
+        return {"error": f"Unsupported file type .{ext}. Supported: {', '.join(allowed_extensions)}"}
     
     # Save uploaded file temporarily
     file_path = f"temp_{file.filename}"
@@ -39,16 +42,17 @@ async def upload_pdf(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
     
     # Ingest into RAG pipeline
-    chunk_count = ingest_pdf(file_path)
+    chunk_count = ingest_document(file_path, file.filename)
     
     # Clean up temp file
     os.remove(file_path)
     
     return {
-        "message": f"PDF ingested successfully!",
+        "message": f"Document ingested successfully!",
         "chunks_created": chunk_count,
         "filename": file.filename
     }
+
 @app.post("/ask")
 async def ask(request: QuestionRequest):
     """Accept a question and return RAG answer"""
