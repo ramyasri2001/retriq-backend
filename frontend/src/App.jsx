@@ -33,6 +33,7 @@ export default function App() {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [documents, setDocuments] = useState([]);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -49,14 +50,24 @@ export default function App() {
       const data = await res.json();
       setUploaded(true);
       setUploadedFileName(data.filename);
-      setMessages([{
+      setMessages(prev => [...prev, {
         role: "system",
-        text: `Document ingested — **${data.filename}** (${data.chunks_created} knowledge chunks indexed). Ask me anything about this document.`
+        text: `✅ **${data.filename}** ingested — ${data.chunks_created} chunks indexed.`
       }]);
+      setUploaded(true);
+      setFile(null);
     } catch {
       setMessages([{ role: "system", text: "Upload failed. Make sure your backend is running." }]);
     }
-    setUploading(false);
+    // Fetch updated document list
+try {
+  const docsRes = await fetch(`${API_URL}/documents`);
+  const docsData = await docsRes.json();
+  setDocuments(docsData.documents || []);
+} catch {
+  setDocuments([]);
+}
+setUploading(false);
   };
 
   const handleAsk = async () => {
@@ -73,7 +84,7 @@ export default function App() {
       });
       const data = await res.json();
       setMessages(prev => [...prev, {
-        role: "assistant", text: data.answer, sources: data.sources, sourceType: data.source_type
+        role: "assistant", text: data.answer, sources: data.sources, sourceType: data.source_type, sourceDocs: data.source_documents
       }]);
     } catch {
       setMessages(prev => [...prev, {
@@ -83,11 +94,13 @@ export default function App() {
     setLoading(false);
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
+    await fetch(`${API_URL}/clear`, { method: "POST" });
     setMessages([]);
     setUploaded(false);
     setFile(null);
     setUploadedFileName("");
+    setDocuments([]);
   };
 
   return (
@@ -159,28 +172,29 @@ export default function App() {
           )}
         </div>
 
-        {/* Stats */}
-        {uploaded && (
+        {/* Documents List */}
+        {documents.length > 0 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             <div style={{ fontSize: "11px", color: "#64748B", letterSpacing: "1.5px", textTransform: "uppercase", fontWeight: "600" }}>
-              Session
+              Loaded Documents ({documents.length})
             </div>
             <div style={{
-              background: "#1E2D45", borderRadius: "10px", padding: "14px",
-              display: "flex", flexDirection: "column", gap: "8px"
+              background: "#1E2D45", borderRadius: "10px", padding: "10px",
+              display: "flex", flexDirection: "column", gap: "6px"
             }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                <span style={{ color: "#64748B" }}>Messages</span>
-                <span style={{ color: "white", fontWeight: "600" }}>{messages.filter(m => m.role !== "system").length}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                <span style={{ color: "#64748B" }}>Model</span>
-                <span style={{ color: "#E07B39", fontWeight: "600" }}>Claude</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                <span style={{ color: "#64748B" }}>Search</span>
-                <span style={{ color: "#93C5FD", fontWeight: "600" }}>FAISS RAG</span>
-              </div>
+              {documents.map((doc, i) => (
+                <div key={i} style={{
+                  fontSize: "12px", color: "#93C5FD",
+                  padding: "6px 8px", background: "rgba(37,99,235,0.1)",
+                  borderRadius: "6px", wordBreak: "break-all"
+                }}>
+                  📄 {doc}
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#64748B", padding: "0 4px" }}>
+              <span>Model: <span style={{ color: "#E07B39" }}>Claude</span></span>
+              <span>Search: <span style={{ color: "#93C5FD" }}>FAISS</span></span>
             </div>
           </div>
         )}
@@ -307,7 +321,7 @@ export default function App() {
                   }}>
                     {msg.sourceType === "web"
                       ? `🌐 Not found in document — answered from live web (${msg.sources} sources)`
-                      : `📌 ${msg.sources} source chunks retrieved from document`}
+                      : `📌 ${msg.sources} chunks from: ${msg.sourceDocs ? msg.sourceDocs.join(", ") : "document"}`}
                   </div>
                 )}
               </div>

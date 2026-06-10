@@ -5,7 +5,7 @@ import shutil
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
-from rag_pipeline import ingest_document, ask_question
+from rag_pipeline import ingest_document, ask_question, get_uploaded_documents, clear_documents
 app = FastAPI()
 
 # Allow React frontend to talk to this backend

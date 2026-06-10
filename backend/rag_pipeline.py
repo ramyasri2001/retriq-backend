@@ -19,6 +19,7 @@ load_dotenv()
 # Global variables
 vectorstore = None
 rag_chain = None
+uploaded_documents = []  # Track all uploaded documents
 
 # Initialize embedding model once
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -110,29 +111,35 @@ def extract_text_from_file(file_path: str, filename: str) -> str:
 
 
 def ingest_document(file_path: str, filename: str):
-    """Read any document, chunk it, embed it, store in FAISS"""
-    global vectorstore, rag_chain
+    """Read any document, chunk it, embed it, ADD to FAISS"""
+    global vectorstore, rag_chain, uploaded_documents
 
-    # Extract text from file
     text = extract_text_from_file(file_path, filename)
 
     if not text.strip():
         return 0
 
-    # Create document object
-    documents = [Document(page_content=text, metadata={"source": filename})]
+    documents = [Document(
+        page_content=text,
+        metadata={"source": filename}
+    )]
 
-    # Split into chunks
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
         chunk_overlap=50
     )
     chunks = splitter.split_documents(documents)
 
-    # Store in FAISS
-    vectorstore = FAISS.from_documents(chunks, embeddings)
+    # ADD to existing FAISS or create new one
+    if vectorstore is None:
+        vectorstore = FAISS.from_documents(chunks, embeddings)
+    else:
+        vectorstore.add_documents(chunks)
 
-    # Create RAG chain
+    # Track uploaded documents
+    if filename not in uploaded_documents:
+        uploaded_documents.append(filename)
+
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     rag_chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -142,6 +149,17 @@ def ingest_document(file_path: str, filename: str):
     )
 
     return len(chunks)
+
+
+def get_uploaded_documents():
+    return uploaded_documents
+
+
+def clear_documents():
+    global vectorstore, rag_chain, uploaded_documents
+    vectorstore = None
+    rag_chain = None
+    uploaded_documents = []
 
 
 def ask_question(question: str):
@@ -196,8 +214,14 @@ def ask_question(question: str):
         except Exception as e:
             pass
 
+    source_docs = list(set([
+        doc.metadata.get("source", "Unknown")
+        for doc in result["source_documents"]
+    ]))
+
     return {
         "answer": answer,
         "sources": sources,
-        "source_type": "document"
+        "source_type": "document",
+        "source_documents": source_docs
     }
