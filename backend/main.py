@@ -25,32 +25,36 @@ class QuestionRequest(BaseModel):
 def root():
     return {"message": "Compliance RAG Assistant is running!"}
 
-@app.post("/upload")
-async def upload_document(file: UploadFile = File(...)):
-    """Accept any document and ingest it into RAG pipeline"""
-    
-    # Check supported file types
+@app.post("/upload-bulk")
+async def upload_bulk(files: list[UploadFile] = File(...)):
     allowed_extensions = ["pdf", "docx", "xlsx", "xls", "pptx", "csv", "txt", "md", "jpg", "jpeg", "png", "webp"]
-    ext = file.filename.lower().split(".")[-1]
-    
-    if ext not in allowed_extensions:
-        return {"error": f"Unsupported file type .{ext}. Supported: {', '.join(allowed_extensions)}"}
-    
-    # Save uploaded file temporarily
-    file_path = f"temp_{file.filename}"
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
-    # Ingest into RAG pipeline
-    chunk_count = ingest_document(file_path, file.filename)
-    
-    # Clean up temp file
-    os.remove(file_path)
-    
+    results = []
+    errors = []
+    total_chunks = 0
+
+    for file in files:
+        ext = file.filename.lower().split(".")[-1]
+        if ext not in allowed_extensions:
+            errors.append(f"Skipped {file.filename}")
+            continue
+        file_path = f"temp_{file.filename}"
+        try:
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            chunk_count = ingest_document(file_path, file.filename)
+            total_chunks += chunk_count
+            results.append({"filename": file.filename, "chunks": chunk_count})
+        except Exception as e:
+            errors.append(f"Failed {file.filename}: {str(e)}")
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
     return {
-        "message": f"Document ingested successfully!",
-        "chunks_created": chunk_count,
-        "filename": file.filename
+        "message": f"Bulk upload complete! {len(results)} files ingested.",
+        "total_chunks": total_chunks,
+        "files_ingested": len(results),
+        "errors": errors
     }
 @app.post("/upload-bulk")
 async def upload_bulk(files: list[UploadFile] = File(...)):
