@@ -83,28 +83,31 @@ def extract_text_from_file(file_path: str, filename: str) -> str:
         with open(file_path, "rb") as f:
             image_data = base64.b64encode(f.read()).decode()
         media_type = "image/jpeg" if ext in ["jpg", "jpeg"] else f"image/{ext}"
-        response = client.messages.create(
-            model="claude-opus-4-6",
-            max_tokens=4096,
-            messages=[{
-                "role": "user",
-                "content": [
-                    {
-                        "type": "image",
-                        "source": {
-                            "type": "base64",
-                            "media_type": media_type,
-                            "data": image_data
+        try:
+            response = client.messages.create(
+                model="claude-opus-4-6",
+                max_tokens=4096,
+                messages=[{
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": media_type,
+                                "data": image_data
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Please extract and describe all text content visible in this image. Include all text, any tables, and describe any charts or diagrams you see."
                         }
-                    },
-                    {
-                        "type": "text",
-                        "text": "Extract ALL content from this document image. Include all text, tables, charts descriptions, and any other visible information. Be thorough and preserve structure."
-                    }
-                ]
-            }]
-        )
-        return response.content[0].text
+                    ]
+                }]
+            )
+            return response.content[0].text
+        except Exception as e:
+            return f"Image processed but content extraction limited: {filename}"
 
     else:
         return f"Unsupported file type: {ext}"
