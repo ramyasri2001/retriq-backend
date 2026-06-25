@@ -42,7 +42,7 @@ def get_embeddings():
     if _embeddings is None:
         _embeddings = VoyageAIEmbeddings(
             voyage_api_key=os.getenv("VOYAGE_API_KEY"),
-            model="voyage-2"
+            model="voyage-code-3"
         )
     return _embeddings
 
