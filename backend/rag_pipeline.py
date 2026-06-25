@@ -9,9 +9,21 @@ from dotenv import load_dotenv
 import os
 import sys
 import base64
+import json
+import shutil
 import pandas as pd
 from docx import Document as DocxDocument
 from pptx import Presentation
+
+# Persistent storage paths
+DATA_DIR = "/data"
+FAISS_PATH = "/data/faiss_index"
+DOCS_PATH = "/data/documents.json"
+UPLOADS_DIR = "/data/uploads"
+
+# Create directories if not exist
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 sys.path.append(os.path.dirname(__file__))
 load_dotenv()
@@ -19,7 +31,7 @@ load_dotenv()
 # Global variables
 vectorstore = None
 rag_chain = None
-uploaded_documents = []  # Track all uploaded documents
+uploaded_documents = []
 
 # Lazy initialization
 _embeddings = None
@@ -45,22 +57,44 @@ def get_llm():
         )
     return _llm
 
+def load_persistent_data():
+    """Load existing FAISS index and documents on startup"""
+    global vectorstore, rag_chain, uploaded_documents
+    try:
+        if os.path.exists(FAISS_PATH) and os.path.exists(DOCS_PATH):
+            vectorstore = FAISS.load_local(
+                FAISS_PATH,
+                get_embeddings(),
+                allow_dangerous_deserialization=True
+            )
+            with open(DOCS_PATH, "r") as f:
+                uploaded_documents = json.load(f)
+            retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+            rag_chain = RetrievalQA.from_chain_type(
+                llm=get_llm(),
+                chain_type="stuff",
+                retriever=retriever,
+                return_source_documents=True
+            )
+            print(f"✅ Loaded {len(uploaded_documents)} documents from persistent storage")
+        else:
+            print("ℹ️ No persistent data found — starting fresh")
+    except Exception as e:
+        print(f"⚠️ Could not load persistent data: {e}")
+
 def extract_text_from_file(file_path: str, filename: str) -> str:
     """Extract text from any supported file type"""
     ext = filename.lower().split(".")[-1]
 
-    # PDF
     if ext == "pdf":
         from pypdf import PdfReader
         reader = PdfReader(file_path)
         return "\n".join([page.extract_text() or "" for page in reader.pages])
 
-    # Word
     elif ext == "docx":
         doc = DocxDocument(file_path)
         return "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
 
-    # Excel
     elif ext in ["xlsx", "xls"]:
         df_dict = pd.read_excel(file_path, sheet_name=None)
         text = ""
@@ -69,7 +103,6 @@ def extract_text_from_file(file_path: str, filename: str) -> str:
             text += df.to_string(index=False)
         return text
 
-    # PowerPoint
     elif ext == "pptx":
         prs = Presentation(file_path)
         text = ""
@@ -80,17 +113,14 @@ def extract_text_from_file(file_path: str, filename: str) -> str:
                     text += shape.text + "\n"
         return text
 
-    # CSV
     elif ext == "csv":
         df = pd.read_csv(file_path)
         return df.to_string(index=False)
 
-    # Plain text or markdown
     elif ext in ["txt", "md"]:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             return f.read()
 
-    # Image — Claude Vision OCR
     elif ext in ["jpg", "jpeg", "png", "webp"]:
         import anthropic
         client = anthropic.Anthropic()
@@ -128,7 +158,7 @@ def extract_text_from_file(file_path: str, filename: str) -> str:
 
 
 def ingest_document(file_path: str, filename: str):
-    """Read any document, chunk it, embed it, ADD to FAISS"""
+    """Read any document, chunk it, embed it, ADD to FAISS and save persistently"""
     global vectorstore, rag_chain, uploaded_documents
 
     text = extract_text_from_file(file_path, filename)
@@ -157,6 +187,11 @@ def ingest_document(file_path: str, filename: str):
     if filename not in uploaded_documents:
         uploaded_documents.append(filename)
 
+    # Save persistently to Railway Volume
+    vectorstore.save_local(FAISS_PATH)
+    with open(DOCS_PATH, "w") as f:
+        json.dump(uploaded_documents, f)
+
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     rag_chain = RetrievalQA.from_chain_type(
         llm=get_llm(),
@@ -177,6 +212,15 @@ def clear_documents():
     vectorstore = None
     rag_chain = None
     uploaded_documents = []
+    # Clear persistent storage
+    if os.path.exists(FAISS_PATH):
+        shutil.rmtree(FAISS_PATH)
+    if os.path.exists(DOCS_PATH):
+        os.remove(DOCS_PATH)
+    # Clear uploaded files
+    if os.path.exists(UPLOADS_DIR):
+        shutil.rmtree(UPLOADS_DIR)
+        os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 
 def ask_question(question: str):
@@ -186,7 +230,6 @@ def ask_question(question: str):
     if rag_chain is None:
         return {"error": "No document uploaded yet. Please upload a document first."}
 
-    # Step 1 — Search FAISS first
     import time
     try:
         result = rag_chain.invoke({"query": question})
@@ -196,10 +239,10 @@ def ask_question(question: str):
             result = rag_chain.invoke({"query": question})
         else:
             raise e
+
     answer = result["result"]
     sources = len(result["source_documents"])
 
-    # Step 2 — Check if FAISS found relevant answer
     no_answer_phrases = [
         "i don't have", "i do not have", "not mentioned",
         "no information", "not found", "cannot find",
@@ -208,7 +251,6 @@ def ask_question(question: str):
 
     faiss_failed = any(phrase in answer.lower() for phrase in no_answer_phrases)
 
-    # Step 3 — Tavily fallback if FAISS failed
     if faiss_failed:
         try:
             from tavily import TavilyClient
@@ -250,3 +292,6 @@ def ask_question(question: str):
         "source_type": "document",
         "source_documents": source_docs
     }
+
+# Load persistent data on startup
+load_persistent_data()
