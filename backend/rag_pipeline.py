@@ -1,6 +1,6 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_voyageai import VoyageAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_anthropic import ChatAnthropic
@@ -28,9 +28,10 @@ _llm = None
 def get_embeddings():
     global _embeddings
     if _embeddings is None:
-        _embeddings = VoyageAIEmbeddings(
-            voyage_api_key=os.getenv("VOYAGE_API_KEY"),
-            model="voyage-2"
+        _embeddings = HuggingFaceEmbeddings(
+            model_name="all-MiniLM-L6-v2",
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True}
         )
     return _embeddings
 
