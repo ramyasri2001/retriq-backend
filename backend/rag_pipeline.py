@@ -293,5 +293,3 @@ def ask_question(question: str):
         "source_documents": source_docs
     }
 
-# Load persistent data on startup
-load_persistent_data()
