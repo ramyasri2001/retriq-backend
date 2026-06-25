@@ -60,7 +60,8 @@ async def upload(file: UploadFile = File(...)):
             "message": f"Successfully ingested {file.filename}"
         }
     except Exception as e:
-        return {"error": str(e)}
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}
 
 @app.post("/upload-bulk")
 async def upload_bulk(files: list[UploadFile] = File(...)):
