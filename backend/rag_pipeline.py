@@ -1,6 +1,6 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_voyageai import VoyageAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_anthropic import ChatAnthropic
@@ -22,7 +22,10 @@ rag_chain = None
 uploaded_documents = []  # Track all uploaded documents
 
 # Initialize embedding model once
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = VoyageAIEmbeddings(
+    voyage_api_key=os.getenv("VOYAGE_API_KEY"),
+    model="voyage-2"
+)
 
 # Initialize Claude once
 llm = ChatAnthropic(
