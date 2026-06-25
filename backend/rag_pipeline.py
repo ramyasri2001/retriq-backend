@@ -187,7 +187,15 @@ def ask_question(question: str):
         return {"error": "No document uploaded yet. Please upload a document first."}
 
     # Step 1 — Search FAISS first
-    result = rag_chain.invoke({"query": question})
+    import time
+    try:
+        result = rag_chain.invoke({"query": question})
+    except Exception as e:
+        if "RateLimit" in str(e):
+            time.sleep(20)
+            result = rag_chain.invoke({"query": question})
+        else:
+            raise e
     answer = result["result"]
     sources = len(result["source_documents"])
 
