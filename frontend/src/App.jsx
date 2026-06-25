@@ -93,7 +93,7 @@ function SplashScreen() {
   );
 }
 
-const API_URL = "https://suspect-maturely-scholar.ngrok-free.dev";
+const API_URL = "https://compliq-backend-production-6a0d.up.railway.app";
 
 function Logo() {
   return (
