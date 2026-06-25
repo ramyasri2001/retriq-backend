@@ -143,31 +143,32 @@ export default function App() {
   const handleUpload = async () => {
     if (!file) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const res = await fetch(`${API_URL}/upload`, { method: "POST", body: formData });
-      const data = await res.json();
-      setUploaded(true);
-      setUploadedFileName(data.filename);
-      setMessages(prev => [...prev, {
-        role: "system",
-        text: `✅ **${data.filename}** ingested — ${data.chunks_created} chunks indexed.`
-      }]);
-      setUploaded(true);
-      setFile(null);
-    } catch {
-      setMessages([{ role: "system", text: "Upload failed. Make sure your backend is running." }]);
+    const files = Array.from(file);
+    for (const f of files) {
+      const formData = new FormData();
+      formData.append("file", f);
+      try {
+        const res = await fetch(`${API_URL}/upload`, { method: "POST", body: formData });
+        const data = await res.json();
+        setUploadedFileName(data.filename);
+        setMessages(prev => [...prev, {
+          role: "system",
+          text: `✅ **${data.filename}** ingested — ${data.chunks_created} chunks indexed.`
+        }]);
+      } catch {
+        setMessages(prev => [...prev, { role: "system", text: `❌ Failed: ${f.name}` }]);
+      }
     }
-    // Fetch updated document list
-try {
-  const docsRes = await fetch(`${API_URL}/documents`);
-  const docsData = await docsRes.json();
-  setDocuments(docsData.documents || []);
-} catch {
-  setDocuments([]);
-}
-setUploading(false);
+    setUploaded(true);
+    setFile(null);
+    try {
+      const docsRes = await fetch(`${API_URL}/documents`);
+      const docsData = await docsRes.json();
+      setDocuments(docsData.documents || []);
+    } catch {
+      setDocuments([]);
+    }
+    setUploading(false);
   };
 
   const handleAsk = async () => {
@@ -235,19 +236,19 @@ setUploading(false);
             background: file ? "rgba(37,99,235,0.05)" : "transparent"
           }}>
             <div style={{ fontSize: "28px" }}>
-  {file ? (
-    file.name.match(/\.(jpg|jpeg|png|webp)$/i) ? "🖼️" :
-    file.name.match(/\.xlsx?$/i) ? "📊" :
-    file.name.match(/\.pptx?$/i) ? "📑" :
-    file.name.match(/\.docx?$/i) ? "📝" :
-    "📄"
-  ) : "📁"}
-</div>
+            {file && file.length > 0 ? (
+              file[0].name.match(/\.(jpg|jpeg|png|webp)$/i) ? "🖼️" :
+              file[0].name.match(/\.xlsx?$/i) ? "📊" :
+              file[0].name.match(/\.pptx?$/i) ? "📑" :
+              file[0].name.match(/\.docx?$/i) ? "📝" :
+              "📄"
+            ) : "📁"}
+          </div>
             <div style={{ fontSize: "13px", color: file ? "#93C5FD" : "#64748B", textAlign: "center" }}>
-              {file ? file.name : "Click to select document"}
+              {file ? `${Array.from(file).length} files selected` : "Click to select documents"}
             </div>
-            <input type="file" accept=".pdf,.docx,.xlsx,.xls,.pptx,.csv,.txt,.md,.jpg,.jpeg,.png,.webp" style={{ display: "none" }}
-              onChange={e => setFile(e.target.files[0])} />
+            <input type="file" multiple accept=".pdf,.docx,.xlsx,.xls,.pptx,.csv,.txt,.md,.jpg,.jpeg,.png,.webp" style={{ display: "none" }}
+              onChange={e => setFile(Array.from(e.target.files))} />
           </label>
 
           <button onClick={handleUpload} disabled={!file || uploading}

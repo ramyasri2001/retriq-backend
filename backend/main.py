@@ -25,6 +25,28 @@ class QuestionRequest(BaseModel):
 def root():
     return {"message": "Compliance RAG Assistant is running!"}
 
+@app.post("/upload")
+async def upload(file: UploadFile = File(...)):
+    allowed_extensions = ["pdf", "docx", "xlsx", "xls", "pptx", "csv", "txt", "md", "jpg", "jpeg", "png", "webp"]
+    ext = file.filename.lower().split(".")[-1]
+    if ext not in allowed_extensions:
+        return {"error": f"Unsupported file type .{ext}"}
+    file_path = f"temp_{file.filename}"
+    try:
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        chunk_count = ingest_document(file_path, file.filename)
+        return {
+            "filename": file.filename,
+            "chunks_created": chunk_count,
+            "message": f"Successfully ingested {file.filename}"
+        }
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
 @app.post("/upload-bulk")
 async def upload_bulk(files: list[UploadFile] = File(...)):
     allowed_extensions = ["pdf", "docx", "xlsx", "xls", "pptx", "csv", "txt", "md", "jpg", "jpeg", "png", "webp"]
