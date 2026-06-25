@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #84
+2019 Peterbilt 579 | VIN: 1XPBD49X5KD123456
+Driver: Marcus Webb
+
+  05/04/2026  |  Oil & Filter Change             |  $280
+  04/04/2026  |  Tire Rotation                   |  $83
+  03/25/2026  |  Brake Inspection                |  $255
+  04/15/2026  |  Air Filter Replacement          |  $54
+  04/10/2026  |  Coolant Flush                   |  $161
+
+Total maintenance spend (last 6 months): $833
+Next scheduled service: 09/07/2026
+Odometer at last service: 637,360 miles

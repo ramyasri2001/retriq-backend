@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #31
+2022 Volvo VNL 760 | VIN: 4V4NC9EH5NN456789
+Driver: Tanya Broussard
+
+  03/07/2026  |  Oil & Filter Change             |  $186
+  04/16/2026  |  Tire Rotation                   |  $108
+  05/03/2026  |  Brake Inspection                |  $381
+  03/02/2026  |  Air Filter Replacement          |  $80
+  04/05/2026  |  Coolant Flush                   |  $149
+
+Total maintenance spend (last 6 months): $904
+Next scheduled service: 08/07/2026
+Odometer at last service: 630,401 miles

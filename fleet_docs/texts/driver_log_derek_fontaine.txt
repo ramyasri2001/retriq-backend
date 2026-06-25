@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Derek Fontaine
+Truck #55 | Mack Anthem | TX-TRK-055
+CDL#: TX-41445208  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/13/2026        9.1      7.1     14.9      NONE
+06/09/2026        9.1      8.1     14.9      NONE
+06/05/2026       12.8      6.1     11.2      NONE
+06/06/2026        9.1      8.1     14.9      NONE
+06/09/2026        8.3      7.3     15.7      NONE
+06/04/2026       13.3      6.4     10.7      NONE
+06/09/2026        9.9      7.8     14.1      NONE
+
+Medical card expires: 10/16/2026
+Last drug test: 04/19/2026 — PASS

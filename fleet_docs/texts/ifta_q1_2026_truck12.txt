@@ -1,0 +1,17 @@
+IFTA QUARTERLY FUEL TAX REPORT
+Carrier: Lone Star Freight LLC  |  DOT# 3847291
+Truck #12 — TX-TRK-012
+Quarter: Q1 2026  (Jan 1 – Mar 31)
+
+State        Miles   Avg $/gal     Tax Due
+---------------------------------------------
+TX           4,200       3.890       19.61
+OK             980       3.950        4.65
+NM           1,100       4.020        5.31
+AR             650       3.880        3.03
+TN             820       3.770        3.71
+LA             430       3.910        2.02
+---------------------------------------------
+                     TOTAL TAX DUE  $38.33
+
+Due date: April 30, 2026

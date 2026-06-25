@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #9
+2023 Peterbilt 389  |  Driver: Carla Nguyen
+Period: May 2026
+========================================
+  Gross Revenue:        $    36,984
+  Fuel Cost:           -$     4,982
+  Driver Pay:          -$     3,999
+  Maintenance:         -$     2,731
+  Insurance (pro-rata):-$     1,336
+  Tolls / Misc:        -$       419
+========================================
+  NET PROFIT:           $    23,517
+  MARGIN:                    63.6%
+
+Status: PROFITABLE

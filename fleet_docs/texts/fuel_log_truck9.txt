@@ -1,0 +1,20 @@
+FUEL LOG — Truck #9 (Peterbilt 389)
+Driver: Carla Nguyen  |  Plate: TX-TRK-009
+Company: Lone Star Freight LLC
+-------------------------------------------------------
+Date        Location                  Gallons  $/gal    Total
+-------------------------------------------------------
+05/17/2026  El Paso TX                  111.6  3.627   404.77
+03/23/2026  Little Rock AR              138.7  3.710   514.58
+04/09/2026  Amarillo TX                 106.3  3.720   395.44
+05/17/2026  San Antonio TX               96.9  3.966   384.31
+05/13/2026  Oklahoma City OK            124.7  4.054   505.53
+05/12/2026  Little Rock AR              100.0  3.539   353.90
+04/23/2026  Memphis TN                  145.0  3.582   519.39
+05/13/2026  Memphis TN                   89.7  3.909   350.64
+04/16/2026  Memphis TN                  127.2  3.894   495.32
+04/13/2026  Oklahoma City OK            118.5  4.134   489.88
+-------------------------------------------------------
+                                   TOTAL FUEL COST  $4,413.76
+
+Note: IFTA quarterly report due. See accountant.

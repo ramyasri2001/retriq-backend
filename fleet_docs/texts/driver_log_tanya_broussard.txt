@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Tanya Broussard
+Truck #31 | Volvo VNL 760 | TX-TRK-031
+CDL#: TX-33160652  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/04/2026       12.1      7.9     11.9      NONE
+06/13/2026       11.9      7.5     12.1      NONE
+06/13/2026       10.8      8.2     13.2      NONE
+06/17/2026       11.8      8.8     12.2      NONE
+06/17/2026       11.5      6.9     12.5      NONE
+06/17/2026        8.5      7.5     15.5      NONE
+06/14/2026        8.6      7.6     15.4      NONE
+
+Medical card expires: 09/22/2026
+Last drug test: 05/12/2026 — PASS

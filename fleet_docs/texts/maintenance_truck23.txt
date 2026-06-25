@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #23
+2020 International LT625 | VIN: 4HSBUAPR5LN345678
+Driver: Luis Vega
+
+  05/08/2026  |  Oil & Filter Change             |  $254
+  04/25/2026  |  Tire Rotation                   |  $95
+  03/04/2026  |  Brake Inspection                |  $203
+  05/11/2026  |  Air Filter Replacement          |  $61
+  05/22/2026  |  Coolant Flush                   |  $131
+
+Total maintenance spend (last 6 months): $744
+Next scheduled service: 07/19/2026
+Odometer at last service: 406,770 miles

@@ -1,0 +1,23 @@
+FUEL LOG — Truck #84 (Peterbilt 579)
+Driver: Marcus Webb  |  Plate: TX-TRK-084
+Company: Lone Star Freight LLC
+-------------------------------------------------------
+Date        Location                  Gallons  $/gal    Total
+-------------------------------------------------------
+04/21/2026  San Antonio TX              160.7  3.472   557.95
+04/05/2026  Oklahoma City OK            135.4  3.531   478.10
+03/23/2026  Little Rock AR              128.7  3.906   502.70
+04/02/2026  Oklahoma City OK            131.1  3.851   504.87
+03/22/2026  Oklahoma City OK             94.8  3.932   372.75
+04/09/2026  Houston TX                   92.0  4.163   383.00
+04/10/2026  Albuquerque NM              123.9  3.611   447.40
+04/23/2026  Oklahoma City OK             87.6  3.842   336.56
+04/09/2026  San Antonio TX              172.2  3.871   666.59
+06/04/2026  Little Rock AR              132.3  3.533   467.42
+06/06/2026  San Antonio TX              134.9  4.030   543.65
+06/01/2026  Little Rock AR              166.5  3.477   578.92
+03/27/2026  Oklahoma City OK            155.1  4.090   634.36
+-------------------------------------------------------
+                                   TOTAL FUEL COST  $6,474.27
+
+Note: IFTA quarterly report due. See accountant.

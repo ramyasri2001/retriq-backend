@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #7
+2018 Freightliner Cascadia | VIN: 3AKJHHDR8JSJA1234
+Driver: Bobby Ray Simmons
+
+  04/08/2026  |  Oil & Filter Change             |  $248
+  02/18/2026  |  Tire Rotation                   |  $78
+  03/11/2026  |  Brake Inspection                |  $202
+  02/20/2026  |  Air Filter Replacement          |  $77
+  05/30/2026  |  Coolant Flush                   |  $124
+
+Total maintenance spend (last 6 months): $729
+Next scheduled service: 08/22/2026
+Odometer at last service: 687,133 miles

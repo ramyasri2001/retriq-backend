@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #12
+2021 Kenworth T680  |  Driver: Sandra Okafor
+Period: May 2026
+========================================
+  Gross Revenue:        $    28,539
+  Fuel Cost:           -$     6,961
+  Driver Pay:          -$     6,353
+  Maintenance:         -$     1,376
+  Insurance (pro-rata):-$     1,269
+  Tolls / Misc:        -$       314
+========================================
+  NET PROFIT:           $    12,266
+  MARGIN:                    43.0%
+
+Status: PROFITABLE

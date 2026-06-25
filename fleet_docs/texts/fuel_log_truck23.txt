@@ -1,0 +1,20 @@
+FUEL LOG — Truck #23 (International LT625)
+Driver: Luis Vega  |  Plate: TX-TRK-023
+Company: Lone Star Freight LLC
+-------------------------------------------------------
+Date        Location                  Gallons  $/gal    Total
+-------------------------------------------------------
+04/08/2026  Oklahoma City OK            106.4  4.042   430.07
+06/12/2026  Amarillo TX                 164.2  4.082   670.26
+04/04/2026  Amarillo TX                 156.2  3.679   574.66
+03/24/2026  Amarillo TX                  91.8  3.952   362.79
+03/26/2026  San Antonio TX              141.1  3.818   538.72
+05/08/2026  Little Rock AR               89.2  3.977   354.75
+04/25/2026  El Paso TX                  138.1  3.506   484.18
+06/03/2026  Memphis TN                  151.3  3.630   549.22
+04/03/2026  Lubbock TX                   96.1  3.769   362.20
+05/22/2026  Albuquerque NM              114.6  3.627   415.65
+-------------------------------------------------------
+                                   TOTAL FUEL COST  $4,742.50
+
+Note: IFTA quarterly report due. See accountant.

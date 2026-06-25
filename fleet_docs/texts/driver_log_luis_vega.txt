@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Luis Vega
+Truck #23 | International LT625 | TX-TRK-023
+CDL#: TX-35079180  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/08/2026       12.8      7.5     11.2      NONE
+06/15/2026        9.4      8.4     14.6      NONE
+06/14/2026       11.1      6.3     12.9      NONE
+06/08/2026       11.6     10.6     12.4      NONE
+06/09/2026       12.9      7.9     11.1      NONE
+06/06/2026        9.9      8.9     14.1      NONE
+06/04/2026        8.6      7.6     15.4      NONE
+
+Medical card expires: 08/08/2026
+Last drug test: 05/15/2026 — PASS

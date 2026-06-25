@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #12
+2021 Kenworth T680 | VIN: 2NP2HM6X3MM234567
+Driver: Sandra Okafor
+
+  06/07/2026  |  Oil & Filter Change             |  $209
+  06/13/2026  |  Tire Rotation                   |  $77
+  05/02/2026  |  Brake Inspection                |  $344
+  06/01/2026  |  Air Filter Replacement          |  $64
+  02/26/2026  |  Coolant Flush                   |  $173
+
+Total maintenance spend (last 6 months): $867
+Next scheduled service: 07/25/2026
+Odometer at last service: 496,819 miles

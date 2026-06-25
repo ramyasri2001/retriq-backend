@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #23
+2020 International LT625  |  Driver: Luis Vega
+Period: May 2026
+========================================
+  Gross Revenue:        $    26,528
+  Fuel Cost:           -$     6,324
+  Driver Pay:          -$     4,822
+  Maintenance:         -$     2,322
+  Insurance (pro-rata):-$     1,347
+  Tolls / Misc:        -$       286
+========================================
+  NET PROFIT:           $    11,427
+  MARGIN:                    43.1%
+
+Status: PROFITABLE

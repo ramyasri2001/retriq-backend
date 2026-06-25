@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Carla Nguyen
+Truck #9 | Peterbilt 389 | TX-TRK-009
+CDL#: TX-20323007  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/16/2026       13.8      8.1     10.2      NONE
+06/13/2026        9.2      7.0     14.8      NONE
+06/04/2026        9.9      6.0     14.1      NONE
+06/04/2026        9.8      8.0     14.2      NONE
+06/16/2026       12.6      7.9     11.4      NONE
+06/10/2026       11.6      9.3     12.4      NONE
+06/05/2026        8.4      7.4     15.6      NONE
+
+Medical card expires: 11/23/2026
+Last drug test: 05/30/2026 — PASS

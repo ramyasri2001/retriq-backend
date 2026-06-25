@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Bobby Ray Simmons
+Truck #7 | Freightliner Cascadia | TX-TRK-007
+CDL#: TX-71878836  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/06/2026       11.1      9.2     12.9      NONE
+06/07/2026       10.6      8.1     13.4      NONE
+06/12/2026       11.4     10.4     12.6      NONE
+06/06/2026        8.7      7.7     15.3      NONE
+06/06/2026       13.2     10.9     10.8      NONE
+06/08/2026       10.7      6.1     13.3      NONE
+06/15/2026       10.2      6.7     13.8      NONE
+
+Medical card expires: 11/15/2026
+Last drug test: 05/29/2026 — PASS

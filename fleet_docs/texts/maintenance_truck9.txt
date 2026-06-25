@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #9
+2023 Peterbilt 389 | VIN: 1XPGD49X9PD678901
+Driver: Carla Nguyen
+
+  04/27/2026  |  Oil & Filter Change             |  $233
+  04/08/2026  |  Tire Rotation                   |  $70
+  03/07/2026  |  Brake Inspection                |  $379
+  05/28/2026  |  Air Filter Replacement          |  $57
+  03/15/2026  |  Coolant Flush                   |  $176
+
+Total maintenance spend (last 6 months): $915
+Next scheduled service: 09/09/2026
+Odometer at last service: 720,994 miles

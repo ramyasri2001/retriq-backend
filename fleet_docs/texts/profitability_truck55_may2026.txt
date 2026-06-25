@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #55
+2017 Mack Anthem  |  Driver: Derek Fontaine
+Period: May 2026
+========================================
+  Gross Revenue:        $    26,733
+  Fuel Cost:           -$     6,071
+  Driver Pay:          -$     6,354
+  Maintenance:         -$     2,448
+  Insurance (pro-rata):-$     1,459
+  Tolls / Misc:        -$       276
+========================================
+  NET PROFIT:           $    10,125
+  MARGIN:                    37.9%
+
+Status: PROFITABLE

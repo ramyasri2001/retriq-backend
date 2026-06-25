@@ -1,0 +1,17 @@
+DRIVER HOS LOG — Sandra Okafor
+Truck #12 | Kenworth T680 | TX-TRK-012
+CDL#: TX-76913715  Class A
+Endorsements: Hazmat, Tanker
+
+Date          On Duty  Driving Off Duty Violation
+----------------------------------------------------
+06/06/2026       10.7      9.1     13.3      NONE
+06/04/2026        8.3      7.3     15.7      NONE
+06/17/2026        8.2      7.2     15.8      NONE
+06/04/2026       10.9      9.7     13.1      NONE
+06/07/2026       12.9      9.3     11.1      NONE
+06/09/2026        9.7      8.7     14.3      NONE
+06/16/2026       10.8      8.6     13.2      NONE
+
+Medical card expires: 10/28/2026
+Last drug test: 05/24/2026 — PASS

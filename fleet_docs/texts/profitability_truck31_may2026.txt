@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #31
+2022 Volvo VNL 760  |  Driver: Tanya Broussard
+Period: May 2026
+========================================
+  Gross Revenue:        $    21,864
+  Fuel Cost:           -$     6,059
+  Driver Pay:          -$     5,684
+  Maintenance:         -$     2,674
+  Insurance (pro-rata):-$     1,442
+  Tolls / Misc:        -$       424
+========================================
+  NET PROFIT:           $     5,581
+  MARGIN:                    25.5%
+
+Status: PROFITABLE

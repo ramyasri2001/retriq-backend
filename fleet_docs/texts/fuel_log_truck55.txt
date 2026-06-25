@@ -1,0 +1,23 @@
+FUEL LOG — Truck #55 (Mack Anthem)
+Driver: Derek Fontaine  |  Plate: TX-TRK-055
+Company: Lone Star Freight LLC
+-------------------------------------------------------
+Date        Location                  Gallons  $/gal    Total
+-------------------------------------------------------
+04/03/2026  El Paso TX                  178.2  3.513   626.02
+05/07/2026  Little Rock AR              167.6  3.871   648.78
+05/18/2026  Amarillo TX                 137.9  3.534   487.34
+06/02/2026  Little Rock AR              179.4  3.528   632.92
+05/06/2026  Albuquerque NM              175.9  3.710   652.59
+04/23/2026  Little Rock AR              147.4  4.138   609.94
+05/22/2026  Amarillo TX                 120.4  4.137   498.09
+06/03/2026  Lubbock TX                  102.9  4.125   424.46
+05/02/2026  Amarillo TX                 137.8  3.909   538.66
+03/31/2026  Little Rock AR              173.0  3.820   660.86
+06/06/2026  Oklahoma City OK            138.3  3.952   546.56
+06/07/2026  Amarillo TX                 133.3  4.127   550.13
+05/09/2026  Oklahoma City OK            107.8  3.844   414.38
+-------------------------------------------------------
+                                   TOTAL FUEL COST  $7,290.73
+
+Note: IFTA quarterly report due. See accountant.

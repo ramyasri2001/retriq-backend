@@ -1,0 +1,13 @@
+MAINTENANCE RECORD — Truck #55
+2017 Mack Anthem | VIN: 1M1AW02Y2HM567890
+Driver: Derek Fontaine
+
+  03/19/2026  |  Oil & Filter Change             |  $209
+  03/17/2026  |  Tire Rotation                   |  $87
+  05/09/2026  |  Brake Inspection                |  $333
+  04/27/2026  |  Air Filter Replacement          |  $82
+  05/05/2026  |  Coolant Flush                   |  $137
+
+Total maintenance spend (last 6 months): $848
+Next scheduled service: 09/08/2026
+Odometer at last service: 587,545 miles

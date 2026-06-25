@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #7
+2018 Freightliner Cascadia  |  Driver: Bobby Ray Simmons
+Period: May 2026
+========================================
+  Gross Revenue:        $    28,774
+  Fuel Cost:           -$     6,784
+  Driver Pay:          -$     5,492
+  Maintenance:         -$     2,102
+  Insurance (pro-rata):-$     1,252
+  Tolls / Misc:        -$       541
+========================================
+  NET PROFIT:           $    12,603
+  MARGIN:                    43.8%
+
+Status: PROFITABLE

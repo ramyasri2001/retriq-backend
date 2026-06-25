@@ -1,0 +1,15 @@
+MONTHLY PROFITABILITY REPORT — Truck #84
+2019 Peterbilt 579  |  Driver: Marcus Webb
+Period: May 2026
+========================================
+  Gross Revenue:        $    22,385
+  Fuel Cost:           -$     4,244
+  Driver Pay:          -$     5,495
+  Maintenance:         -$     1,679
+  Insurance (pro-rata):-$     1,702
+  Tolls / Misc:        -$       441
+========================================
+  NET PROFIT:           $     8,824
+  MARGIN:                    39.4%
+
+Status: PROFITABLE

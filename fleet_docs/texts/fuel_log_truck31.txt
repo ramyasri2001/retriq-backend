@@ -1,0 +1,20 @@
+FUEL LOG — Truck #31 (Volvo VNL 760)
+Driver: Tanya Broussard  |  Plate: TX-TRK-031
+Company: Lone Star Freight LLC
+-------------------------------------------------------
+Date        Location                  Gallons  $/gal    Total
+-------------------------------------------------------
+05/18/2026  Oklahoma City OK            166.8  3.582   597.48
+04/02/2026  Lubbock TX                  124.5  3.599   448.08
+05/24/2026  Little Rock AR               80.8  3.721   300.66
+05/17/2026  Houston TX                  176.6  3.761   664.19
+03/20/2026  El Paso TX                  129.8  3.599   467.15
+06/09/2026  Dallas TX                    82.2  3.924   322.55
+04/16/2026  El Paso TX                  138.6  4.131   572.56
+06/10/2026  Oklahoma City OK            135.6  3.852   522.33
+04/08/2026  Oklahoma City OK             95.0  4.119   391.30
+05/17/2026  Oklahoma City OK            153.9  3.579   550.81
+-------------------------------------------------------
+                                   TOTAL FUEL COST  $4,837.11
+
+Note: IFTA quarterly report due. See accountant.
