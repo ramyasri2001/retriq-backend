@@ -150,10 +150,10 @@ export default function App() {
       try {
         const res = await fetch(`${API_URL}/upload`, { method: "POST", body: formData });
         const data = await res.json();
-        setUploadedFileName(data.filename);
+        setUploadedFileName(data.filename || f.name);
         setMessages(prev => [...prev, {
           role: "system",
-          text: `✅ **${data.filename}** ingested — ${data.chunks_created} chunks indexed.`
+          text: `✅ **${data.filename || f.name}** ingested — ${data.chunks_created || data.total_chunks || '?'} chunks indexed.`
         }]);
       } catch {
         setMessages(prev => [...prev, { role: "system", text: `❌ Failed: ${f.name}` }]);
