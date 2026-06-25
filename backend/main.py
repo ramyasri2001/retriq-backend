@@ -26,6 +26,22 @@ class QuestionRequest(BaseModel):
 def root():
     return {"message": "RetrIQ RAG Assistant is running!"}
 
+@app.get("/test-storage")
+def test_storage():
+    import os
+    data_exists = os.path.exists("/data")
+    uploads_exists = os.path.exists("/data/uploads")
+    faiss_exists = os.path.exists("/data/faiss_index")
+    docs_exists = os.path.exists("/data/documents.json")
+    files_in_uploads = os.listdir("/data/uploads") if uploads_exists else []
+    return {
+        "data_dir_exists": data_exists,
+        "uploads_dir_exists": uploads_exists,
+        "faiss_exists": faiss_exists,
+        "docs_json_exists": docs_exists,
+        "files_in_uploads": files_in_uploads
+    }
+
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
     """Accept a single document and ingest into RAG pipeline"""
