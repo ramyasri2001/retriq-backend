@@ -21,18 +21,28 @@ vectorstore = None
 rag_chain = None
 uploaded_documents = []  # Track all uploaded documents
 
-# Initialize embedding model once
-embeddings = VoyageAIEmbeddings(
-    voyage_api_key=os.getenv("VOYAGE_API_KEY"),
-    model="voyage-2"
-)
+# Lazy initialization
+_embeddings = None
+_llm = None
 
-# Initialize Claude once
-llm = ChatAnthropic(
-    model="claude-opus-4-6",
-    anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
-    max_tokens=1024
-)
+def get_embeddings():
+    global _embeddings
+    if _embeddings is None:
+        _embeddings = VoyageAIEmbeddings(
+            voyage_api_key=os.getenv("VOYAGE_API_KEY"),
+            model="voyage-2"
+        )
+    return _embeddings
+
+def get_llm():
+    global _llm
+    if _llm is None:
+        _llm = ChatAnthropic(
+            model="claude-opus-4-6",
+            anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
+            max_tokens=1024
+        )
+    return _llm
 
 def extract_text_from_file(file_path: str, filename: str) -> str:
     """Extract text from any supported file type"""
@@ -138,7 +148,7 @@ def ingest_document(file_path: str, filename: str):
 
     # ADD to existing FAISS or create new one
     if vectorstore is None:
-        vectorstore = FAISS.from_documents(chunks, embeddings)
+        vectorstore = FAISS.from_documents(chunks, get_embeddings())
     else:
         vectorstore.add_documents(chunks)
 
@@ -148,7 +158,7 @@ def ingest_document(file_path: str, filename: str):
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     rag_chain = RetrievalQA.from_chain_type(
-        llm=llm,
+        llm=get_llm(),
         chain_type="stuff",
         retriever=retriever,
         return_source_documents=True
